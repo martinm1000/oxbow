@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
+<metadata modelVersion="1.1.0">
   <groupId>org.oxbow</groupId>
   <artifactId>swing-bits</artifactId>
   <versioning>
+    <latest>1.2.2</latest>
     <release>1.2.2</release>
-    <versions>
-      <version>1.2.2</version>
-    </versions>
+    <version>1.2.2</version>
     <lastUpdated>20190117120000</lastUpdated>
   </versioning>
 </metadata>
