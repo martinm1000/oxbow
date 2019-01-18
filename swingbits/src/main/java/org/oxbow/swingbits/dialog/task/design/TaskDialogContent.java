@@ -31,36 +31,21 @@
 
 package org.oxbow.swingbits.dialog.task.design;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.UIManager;
-
 import net.miginfocom.swing.MigLayout;
-
 import org.oxbow.swingbits.dialog.task.IContentDesign;
 import org.oxbow.swingbits.dialog.task.TaskDialog;
 import org.oxbow.swingbits.util.Markup;
 import org.oxbow.swingbits.util.Strings;
 import org.oxbow.swingbits.util.swing.Icons;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Set;
+import java.util.UUID;
 
 public class TaskDialogContent extends JPanel implements TaskDialog.Details, TaskDialog.Footer {
 
@@ -309,7 +294,7 @@ public class TaskDialogContent extends JPanel implements TaskDialog.Details, Tas
             this.command = command;
             this.dlg = dlg;
             this.counter = command.getWaitInterval();
-            
+
             // setup default keystrokes
             KeyStroke keyStroke = command.getKeyStroke();
             if ( keyStroke != null ) {
@@ -317,8 +302,8 @@ public class TaskDialogContent extends JPanel implements TaskDialog.Details, Tas
                 TaskDialogContent.this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke,actionID);
                 TaskDialogContent.this.getActionMap().put(actionID,this);
             }
-            
-            
+
+
             dlg.addValidationListener(this);
 
             putValue( Action.NAME, getTitle() );
@@ -335,19 +320,23 @@ public class TaskDialogContent extends JPanel implements TaskDialog.Details, Tas
 
                 });
 
-                dlg.addPropertyListener("visible", new PropertyChangeListener() {
+                // this doesn't work since the 'refactoring', event is blocked by the dialog being modal
+//                dlg.addPropertyListener("visible", new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(PropertyChangeEvent e) {
+//                        System.out.println("PC " + e);
+//                        if ( Boolean.TRUE.equals(e.getNewValue())) {
+//                            timer.start();
+//                        }
+//                    }
+//                });
 
-                    @Override
-                    public void propertyChange(PropertyChangeEvent e) {
-                        if ( Boolean.TRUE.equals(e.getNewValue())) {
-                            timer.start();
-                        }
-                    }
-                });
+                SwingUtilities.invokeLater(() -> timer.start()); // might not always work if the dialog isn't shown right away
             }
 
         }
-        
+
         @Override
         public void validationFinished(boolean validationResult) {
             
@@ -369,6 +358,7 @@ public class TaskDialogContent extends JPanel implements TaskDialog.Details, Tas
         }
 
         private void tick() {
+            System.out.println("tick!");
             if ( --counter <= 0 ) {
                 timer.stop();
             }
