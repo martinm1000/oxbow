@@ -31,26 +31,9 @@
 
 package org.oxbow.swingbits.dialog.task;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Window;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JFormattedTextField;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.event.AncestorEvent;
-
+import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swing.MigLayout;
 import org.oxbow.swingbits.dialog.task.TaskDialog.StandardCommand;
 import org.oxbow.swingbits.dialog.task.design.CommandLinkButton;
 import org.oxbow.swingbits.dialog.task.design.CommandLinkButtonGroup;
@@ -58,9 +41,13 @@ import org.oxbow.swingbits.list.CheckList;
 import org.oxbow.swingbits.util.Strings;
 import org.oxbow.swingbits.util.swing.AncestorAdapter;
 
-import net.miginfocom.layout.CC;
-import net.miginfocom.layout.LC;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -388,7 +375,11 @@ public final class TaskDialogs {
 				btn = new CommandLinkButton(link, TaskDialog.getDesign().getCommandLinkPainter());
 				models.add(btn.getModel());
 				buttons.add(btn);
-				bGroup.add(btn);
+
+                // looks like we don't need it after all and this fixes the changes made at https://bugs.openjdk.java.net/browse/JDK-8033699
+				// CommandLinkButton's FocusAdapter seems to do the same job anyway
+				//bGroup.add(btn);
+
 				p.add(btn, new CC().growX().gapBottom("8"));
 			}
 
