@@ -332,7 +332,12 @@ public class TaskDialogContent extends JPanel implements TaskDialog.Details, Tas
 //                    }
 //                });
 
-                SwingUtilities.invokeLater(() -> timer.start()); // might not always work if the dialog isn't shown right away
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        timer.start(); // might not always work if the dialog isn't shown right away
+                    }
+                });
             }
 
         }
