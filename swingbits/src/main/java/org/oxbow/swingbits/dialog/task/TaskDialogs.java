@@ -73,7 +73,7 @@ public final class TaskDialogs {
 
         /**
          * Sets dialog parent
-         * @param title
+         * @param parent
          * @return
          */
         public TaskDialogBuilder parent( Window parent ) {
